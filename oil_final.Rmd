@@ -1,0 +1,187 @@
+---
+title: "final"
+author: "Dwight"
+date: "11/7/2019"
+output: html_document
+---
+```{r}
+library(datasets)
+library(tidyverse)
+library(ggplot2)
+library(janitor)
+library(readxl)
+Production <- read_excel("Production_BCS.xlsx", 
+    col_types = c("text", "text", "date", 
+        "numeric", "numeric", "numeric", 
+        "numeric")) %>% clean_names()
+
+```
+
+```{r}
+ ggplot(Production, aes(reservoir, well, color = oil_rate_bopd)) + geom_point()
+```
+
+```{r}
+head(Production)
+```
+```{r}
+summary(Production)
+```
+```{r}
+Production %>% filter(is.na(water_rate_bwpd))
+```
+```{r}
+library(lubridate)
+Production$date<-ymd(Production$date)
+newdates<-Production %>% filter(date>1973)
+newdates
+```
+```{r}
+#1978 82 86 90 94 98 02 06 10 14
+years<- seq(1978,2014,4)
+newdates %>% filter(year(date) %in%years) %>% na.omit()
+```
+
+```{r}
+library(stats4)
+clust1<- newdates %>% filter(year(date)== 1994) %>% select(oil_rate_bopd, gas_rate_mscf_d, water_rate_bwpd) %>% scale() %>% kmeans(centers=3, nstart=10)
+
+clust_data<- newdates %>% filter(year(date)==1994) %>% select(oil_rate_bopd, gas_rate_mscf_d, water_rate_bwpd) %>%  scale()
+clust_names<- newdates %>% filter(year(date)==1994) %>% select(well) 
+```
+
+```{r}
+library(factoextra)
+fviz_cluster(clust1, data=clust_data)
+clust_data<- clust_data %>% as.tibble() %>%  mutate(cluster=clust1$cluster, well= rownames(clust_names$well)) 
+clust_data %>%   ggplot(aes(x=water_rate_bwpd, y=gas_rate_mscf_d, color = factor(cluster)))+ geom_point()
+```
+```{r}
+clust_data %>% mutate(color= if(cluster==1){
+  color="red"
+}) 
+
+
+library(rgl)
+plot3d(clust_data[,1:3], col=clust_data$cluster)
+```
+
+```{r}
+clust1<- newdates %>% filter(year(date)== 1982) %>% select(oil_rate_bopd, gas_rate_mscf_d, water_rate_bwpd) %>% scale() %>% kmeans(centers=3, nstart=10)
+
+clust_data<- newdates %>% filter(year(date)==1982) %>% select(oil_rate_bopd, gas_rate_mscf_d, water_rate_bwpd) %>%  scale()
+clust_names<- newdates %>% filter(year(date)==1982) %>% select(well)
+
+fviz_cluster(clust1, data=clust_data)
+clust_data<- clust_data %>% as.tibble() %>%  mutate(cluster=clust1$cluster, well= rownames(clust_names$well)) 
+
+plot3d(clust_data[,1:3], col=clust_data$cluster)
+
+```
+```{r}
+clust1<- newdates %>% filter(year(date)== 1986) %>% select(oil_rate_bopd, gas_rate_mscf_d, water_rate_bwpd) %>% scale() %>% kmeans(centers=3, nstart=10)
+
+clust_data<- newdates %>% filter(year(date)==1986) %>% select(oil_rate_bopd, gas_rate_mscf_d, water_rate_bwpd) %>%  scale()
+clust_names<- newdates %>% filter(year(date)==1986) %>% select(well)
+
+fviz_cluster(clust1, data=clust_data)
+clust_data<- clust_data %>% as.tibble() %>%  mutate(cluster=clust1$cluster, well= rownames(clust_names$well)) 
+
+plot3d(clust_data[,1:3], col=clust_data$cluster)
+
+```
+
+```{r}
+clust1<- newdates %>% filter(year(date)== 1990) %>% select(oil_rate_bopd, gas_rate_mscf_d, water_rate_bwpd) %>% scale() %>% kmeans(centers=3, nstart=10)
+
+clust_data<- newdates %>% filter(year(date)==1990) %>% select(oil_rate_bopd, gas_rate_mscf_d, water_rate_bwpd) %>%  scale()
+clust_names<- newdates %>% filter(year(date)==1990) %>% select(well)
+
+fviz_cluster(clust1, data=clust_data)
+clust_data<- clust_data %>% as.tibble() %>%  mutate(cluster=clust1$cluster, well= rownames(clust_names$well)) 
+
+plot3d(clust_data[,1:3], col=clust_data$cluster)
+
+```
+
+```{r}
+clust1<- newdates %>% filter(year(date)== 1994) %>% select(oil_rate_bopd, gas_rate_mscf_d, water_rate_bwpd) %>% scale() %>% kmeans(centers=3, nstart=10)
+
+clust_data<- newdates %>% filter(year(date)==1994) %>% select(oil_rate_bopd, gas_rate_mscf_d, water_rate_bwpd) %>%  scale()
+clust_names<- newdates %>% filter(year(date)==1994) %>% select(well)
+
+fviz_cluster(clust1, data=clust_data)
+clust_data<- clust_data %>% as.tibble() %>%  mutate(cluster=clust1$cluster, well= rownames(clust_names$well)) 
+
+plot3d(clust_data[,1:3], col=clust_data$cluster)
+
+```
+```{r}
+clust1<- newdates %>% filter(year(date)== 1998) %>% select(oil_rate_bopd, gas_rate_mscf_d, water_rate_bwpd) %>% scale() %>% kmeans(centers=3, nstart=10)
+
+clust_data<- newdates %>% filter(year(date)==1998) %>% select(oil_rate_bopd, gas_rate_mscf_d, water_rate_bwpd) %>%  scale()
+clust_names<- newdates %>% filter(year(date)==1998) %>% select(well)
+
+fviz_cluster(clust1, data=clust_data)
+clust_data<- clust_data %>% as.tibble() %>%  mutate(cluster=clust1$cluster, well= rownames(clust_names$well)) 
+
+plot3d(clust_data[,1:3], col=clust_data$cluster)
+
+```
+```{r}
+clust1<- newdates %>% filter(year(date)== 2014) %>% select(oil_rate_bopd, gas_rate_mscf_d, water_rate_bwpd) %>% scale() %>% kmeans(centers=3, nstart=10)
+
+clust_data<- newdates %>% filter(year(date)==2014) %>% select(oil_rate_bopd, gas_rate_mscf_d, water_rate_bwpd) %>%  scale()
+clust_names<- newdates %>% filter(year(date)==2014) %>% select(well)
+
+fviz_cluster(clust1, data=clust_data)
+clust_data<- clust_data %>% as.tibble() %>%  mutate(cluster=clust1$cluster, well= rownames(clust_names$well)) 
+
+plot3d(clust_data[,1:3], col=clust_data$cluster)
+
+```
+```{r}
+clust1<- newdates %>% na.omit %>% filter(year(date)== 2002)%>% select(oil_rate_bopd, gas_rate_mscf_d, water_rate_bwpd) %>% scale() %>% kmeans(centers=3, nstart=10)
+
+clust_data<- newdates %>% na.omit %>% filter(year(date)==2002)%>% select(oil_rate_bopd, gas_rate_mscf_d, water_rate_bwpd) %>%  scale()
+clust_names<- newdates %>% filter(year(date)==2002)%>% select(well)
+
+fviz_cluster(clust1, data=clust_data)
+clust_data<- clust_data %>% as.tibble() %>%  mutate(cluster=clust1$cluster, well= rownames(clust_names$well)) 
+
+plot3d(clust_data[,1:3], col=clust_data$cluster)
+```
+```{r}
+clust1<- newdates %>% na.omit %>% filter(year(date)== 2006)%>% select(oil_rate_bopd, gas_rate_mscf_d, water_rate_bwpd) %>% scale() %>% kmeans(centers=3, nstart=10)
+
+clust_data<- newdates %>% na.omit %>% filter(year(date)==2006)%>% select(oil_rate_bopd, gas_rate_mscf_d, water_rate_bwpd) %>%  scale()
+clust_names<- newdates %>% filter(year(date)==2006)%>% select(well)
+
+fviz_cluster(clust1, data=clust_data)
+clust_data<- clust_data %>% as.tibble() %>%  mutate(cluster=clust1$cluster, well= rownames(clust_names$well)) 
+
+plot3d(clust_data[,1:3], col=clust_data$cluster)
+```
+```{r}
+clust1<- newdates %>% na.omit %>% filter(year(date)== 2010)%>% select(oil_rate_bopd, gas_rate_mscf_d, water_rate_bwpd) %>% scale() %>% kmeans(centers=3, nstart=10)
+
+clust_data<- newdates %>% na.omit %>% filter(year(date)==2010)%>% select(oil_rate_bopd, gas_rate_mscf_d, water_rate_bwpd) %>%  scale()
+clust_names<- newdates %>% filter(year(date)==2010)%>% select(well)
+
+fviz_cluster(clust1, data=clust_data)
+clust_data<- clust_data %>% as.tibble() %>%  mutate(cluster=clust1$cluster, well= rownames(clust_names$well)) 
+
+plot3d(clust_data[,1:3], col=clust_data$cluster)
+```
+```{r}
+clust1<- newdates %>% na.omit %>% filter(year(date)== 2014)%>% select(oil_rate_bopd, gas_rate_mscf_d, water_rate_bwpd) %>% scale() %>% kmeans(centers=3, nstart=10)
+
+clust_data<- newdates %>% na.omit %>% filter(year(date)==2014)%>% select(oil_rate_bopd, gas_rate_mscf_d, water_rate_bwpd) %>%  scale()
+clust_names<- newdates %>% filter(year(date)==2014)%>% select(well)
+
+fviz_cluster(clust1, data=clust_data)
+clust_data<- clust_data %>% as.tibble() %>%  mutate(cluster=clust1$cluster, well= rownames(clust_names$well)) 
+
+plot3d(clust_data[,1:3], col=clust_data$cluster)
+```
+
