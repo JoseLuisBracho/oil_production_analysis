@@ -16,3 +16,7 @@ Anaylized the history of the production of the wells and reservoirs to see the p
 
 ## Model Trainned
 First a linear regression model was used with unsuccess results. Later a multilayer perceptron was used with a score of 86% which is very good in oil industry. The objective of forecast fluids production is to estimate reserves and scale the surface infrastructures.
+
+A match between historical oil and predicted oil is shown below:
+
+![picture](https://github.com/JoseLuisBracho/oil_production_analysis/blob/master/oil%20page/img/oil_rate_fitting.png)
