@@ -26,7 +26,8 @@ The same apply for gas an water.
 ## Production forecasting
 Once the model reproduce the historical rate with confidence the next step is to predict fluids production. Two pictures show a dashboard for the whole field a for a particular well
 
+### Field forecasted oil
 ![picture](https://github.com/JoseLuisBracho/oil_production_analysis/blob/master/oil%20page/img/Tableau_oil_field.png)
 
-
+### Well BCS0032 forecasted oil
 ![picture](https://github.com/JoseLuisBracho/oil_production_analysis/blob/master/oil%20page/img/Tableau_oil_well.png)
