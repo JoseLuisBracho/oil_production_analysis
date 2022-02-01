@@ -6,7 +6,7 @@ Anaylized the history of the production of the wells and reservoirs to see the p
 * Location data for each well
 * Historical production of oil, water and gas for each well
 * Historical pressures in some wells allow to build a average behaviour for each reservoir
-* Petrophisical summary
+* Petrophysical summary
 
 ## Resources used
 * Excel
